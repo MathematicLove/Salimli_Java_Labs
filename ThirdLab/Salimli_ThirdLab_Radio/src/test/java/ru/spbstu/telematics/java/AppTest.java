@@ -14,27 +14,31 @@ public class AppTest {
         radioThread.start();
         lockThread.start();
         Thread.sleep(200);
-        skany.knOnOff();
+
+        skany.pressOnOff();
         assertTrue(skany.isOn(), "Радио должно быть включено");
-        skany.knScan();
+
+        skany.pressScan();
         Thread.sleep(300);
         assertTrue(skany.isScanning(), "Должно идти сканирование");
 
-        skany.ZaprosBlokirov();
+        skany.requestLock();
         Thread.sleep(300);
         assertTrue(skany.isLocked(), "Сканы должны быть заблокированы");
-        skany.knReset();
+
+        skany.pressReset();
         Thread.sleep(300);
         assertTrue(skany.isLocked(), "Сканы всё ещё заблокированы");
         assertTrue(skany.isOn(), "Радио всё ещё включено");
 
-        skany.ZaprosRazblok();
+        skany.requestUnlock();
         Thread.sleep(300);
         assertFalse(skany.isLocked(), "Сканы должны быть разблокированы");
 
-        skany.knReset();
+        skany.pressReset();
         Thread.sleep(300);
         assertTrue(skany.isScanning(), "Снова идёт сканирование");
+
         skany.end();
         radioThread.join(2000);
         lockThread.join(2000);

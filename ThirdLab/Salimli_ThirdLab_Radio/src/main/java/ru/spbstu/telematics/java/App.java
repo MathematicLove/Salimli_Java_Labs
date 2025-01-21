@@ -1,4 +1,5 @@
 package ru.spbstu.telematics.java;
+
 import java.util.Scanner;
 
 public class App {
@@ -17,31 +18,31 @@ public class App {
             switch (choice) {
                 case "1":
                     System.out.println("[Основ. поток(1)] Нажата кнопка on/off");
-                    skany.knOnOff();
+                    skany.pressOnOff();
                     printSkanyState(skany);
-                    jdemSkanirov(skany);
+                    waitForScan(skany);
                     break;
                 case "2":
                     System.out.println("[Основ. поток(1)] Нажата кнопка scan");
-                    skany.knScan();
+                    skany.pressScan();
                     printSkanyState(skany);
-                    jdemSkanirov(skany);
+                    waitForScan(skany);
                     break;
                 case "3":
                     System.out.println("[Основ. поток(1)] Нажата кнопка reset");
-                    skany.knReset();
+                    skany.pressReset();
                     printSkanyState(skany);
-                    jdemSkanirov(skany);
+                    waitForScan(skany);
                     break;
                 case "4":
                     System.out.println("[Основ. поток(1)] Нажата кнопка lock/unlock");
                     if (skany.isLocked()) {
-                        skany.ZaprosRazblok();
+                        skany.requestUnlock();
                     } else {
-                        skany.ZaprosBlokirov();
+                        skany.requestLock();
                     }
                     printSkanyState(skany);
-                    jdemSkanirov(skany);
+                    waitForScan(skany);
                     break;
                 case "5":
                     System.out.println("[Основ. поток(1)] Нажата кнопка end");
@@ -58,12 +59,13 @@ public class App {
                     break;
                 default:
                     System.out.println("[Основ. поток(1)] Выберите из меню!");
-                    jdemSkanirov(skany);
+                    waitForScan(skany);
                     break;
             }
             printMenu();
         }
     }
+
     private static void printMenu() {
         System.out.println("\n !-------------- РАДИО -------------!");
         System.out.println("1. on/off");
@@ -73,9 +75,9 @@ public class App {
         System.out.println("5. end");
     }
 
-    static void jdemSkanirov(Skany skany) {
+    private static void waitForScan(Skany skany) {
         if (skany.isScanning()) {
-            skany.OzhidanieKoncaSkanirov();
+            skany.waitForScanEnd();
         }
     }
 
